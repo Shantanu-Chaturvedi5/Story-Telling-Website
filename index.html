@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEAM ACE CODERS WORLD</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    /* Background video styles */
+    #bg-video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #bg-video {
+      position: absolute;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    /* Add overlay to improve content visibility */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background video -->
+  <div id="bg-video-container">
+    <video id="bg-video" autoplay muted loop>
+      <source src="bg-vd.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="overlay"></div>
+
+  <!-- Background audio -->
+  <audio id="bg-audio" src="audio/main_bg.mp3" loop></audio>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/icons/logo.jpg" alt="TEAM ACE CODERS Logo" class="logo-img">
+        <span class="logo-text">TEAM ACE CODERS</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#trending"><i class="fas fa-fire"></i><span>Trending</span></a></li>
+        <li><a href="#main-stories"><i class="fas fa-newspaper"></i><span>Main</span></a></li>
+        <li><a href="#horror"><i class="fas fa-skull"></i><span>Horror</span></a></li>
+        <li><a href="#thriller"><i class="fas fa-exclamation-triangle"></i><span>Thriller</span></a></li>
+        <li><a href="#fantasy"><i class="fas fa-magic"></i><span>Fantasy</span></a></li>
+      </ul>
+      <div class="nav-search">
+        <input type="text" id="searchInput" placeholder="Search stories..." class="search-input">
+        <button id="searchBtn" class="glossy-btn"><i class="fas fa-search"></i></button>
+        <!-- Logout Button -->
+        <button id="logoutBtn" class="glossy-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Trending Stories -->
+  <section id="trending" class="section">
+    <h2 class="section-title">Trending Stories</h2>
+    <div class="auto-slider">
+      <div class="slider-track">
+        <!-- Story Cards -->
+        <div class="slide">
+          <a href="story1.html">
+            <img src="images\icons\6.webp" alt="The Last Train">
+            <div class="slide-caption">The Last Train</div>
+          </a>
+        </div>
+        <div class="slide">
+          <a href="story2.html">
+            <img src="images\icons\1.jpg" alt="Ghosts and Empties">
+            <div class="slide-caption">Ghosts and Empties</div>
+          </a>
+        </div>
+        <div class="slide">
+          <a href="story3.html">
+            <img src="images\icons\3.jpg" alt="The Forgotten Portal">
+            <div class="slide-caption">The Forgotten Portal</div>
+          </a>
+        </div>
+        <div class="slide">
+          <a href="story4.html">
+            <img src="images\icons\4.jpg" alt="The Fall of the Lion King">
+            <div class="slide-caption">The Fall of the Lion King</div>
+          </a>
+        </div>
+        <div class="slide">
+          <a href="trending/story1.html">
+            <img src="images\icons\5.webp" alt="Digital Maze">
+            <div class="slide-caption">Digital Maze</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Stories -->
+  <section id="main-stories" class="section">
+    <h2 class="section-title">Main Stories</h2>
+    <div class="story-grid">
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\6.webp" alt="The Last Train">
+        <h3>The Last Train</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\7.webp" alt="Cyber Shadows">
+        <h3>Cyber Shadows</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\8.webp" alt="Digital Maze">
+        <h3>Digital Maze</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\9.jpg" alt="The Algorithm's Revenge">
+        <h3>The Algorithm's Revenge</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\10.jpg" alt="Silicon Dreams">
+        <h3>Silicon Dreams</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Horror Segment -->
+  <section id="horror" class="section">
+    <h2 class="section-title">Horror Stories</h2>
+    <div class="story-grid">
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\11.jpg" alt="The Haunted Manor">
+        <h3>The Haunted Manor</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images\icons\12.jpg" alt="Nightmare Alley">
+        <h3>Nightmare Alley</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Whispering Shadows.jpg" alt="Whispering Shadows">
+        <h3>Whispering Shadows</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/2.jpg" alt="The Cursed Doll">
+        <h3>The Cursed Doll</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Thriller Segment -->
+  <section id="thriller" class="section">
+    <h2 class="section-title">Thriller Stories</h2>
+    <div class="story-grid">
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/The Last Witness.jpeg" alt="The Last Witness">
+        <h3>The Last Witness</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Shattered Truths.jpg" alt="Shattered Truth">
+        <h3>Shattered Truth</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Edge of Deception.jpg" alt="Edge of Deception">
+        <h3>Edge of Deception</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/A Silent Pursuit.jpg" alt="Silent Pursuit">
+        <h3>Silent Pursuit</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Double Cross.jpg" alt="Double Cross">
+        <h3>Double Cross</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Fantasy Segment -->
+  <section id="fantasy" class="section">
+    <h2 class="section-title">Fantasy Stories</h2>
+    <div class="story-grid">
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Enchanted Forest.jpg" alt="The Enchanted Forest">
+        <h3>The Enchanted Forest</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/3.jpg" alt="Dragon's Quest">
+        <h3>Dragon's Quest</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Realm of Magic.jpg" alt="Realm of Magic">
+        <h3>Realm of Magic</h3>
+      </a>
+      <a href="story1.html" class="story-card">
+        <img src="images/icons/Moonlit Prophecy.jpg" alt="Moonlit Prophecy">
+        <h3>Moonlit Prophecy</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Back to Top -->
+  <button id="backToTop" class="glossy-btn"><i class="fas fa-arrow-up"></i></button>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 ACE CODERS. All rights reserved.</p>
+  </footer>
+  <script>
+    // Background video and audio controls
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('bg-video');
+      const audio = document.getElementById('bg-audio');
+      
+      // Play audio when user interacts with the page
+      document.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play();
+        }
+      }, { once: true });
+      
+      // Make sure video always plays
+      video.addEventListener('canplaythrough', function() {
+        video.play();
+      });
+      
+      // Handle video errors
+      video.addEventListener('error', function() {
+        console.error('Error playing the background video');
+        document.getElementById('bg-video-container').style.backgroundColor = '#000';
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

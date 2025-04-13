@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Last Train - Story</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Base Styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+      background-size: cover;
+      opacity: 0.5;
+    }
+    /* Navigation Bar (using your index.html theme) */
+    header {
+      background: rgba(17, 17, 17, 0.9);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 71, 145, 0.6);
+      box-shadow: 0 0 15px rgba(255, 71, 145, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .logo-img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 71, 145, 0.8);
+    }
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 71, 145, 0.8);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4081, #f50057);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+    .nav-search {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .search-input {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      width: 220px;
+      transition: all 0.3s;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .search-input:focus {
+      width: 240px;
+      outline: none;
+      border-color: rgba(255, 71, 145, 0.5);
+      box-shadow: 0 0 10px rgba(255, 71, 145, 0.3);
+    }
+    .glossy-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff4081, #f50057);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .glossy-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 71, 145, 0.5);
+    }
+    .glossy-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    /* Slider using CSS scroll-snap */
+    .slider-wrapper {
+      position: relative;
+      margin-top: 80px; /* space for header */
+    }
+    .slider-container {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+    .slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      padding: 2rem;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.5);
+      margin: 1rem;
+      border-radius: 10px;
+    }
+    .slide h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .slide img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    .slide p {
+      max-width: 700px;
+      margin: 1.5rem auto;
+      font-size: 1.2rem;
+      text-align: justify;
+      line-height: 1.6;
+    }
+    /* Navigation buttons for slider */
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .nav-buttons button {
+      pointer-events: all;
+      background: rgba(155, 89, 182, 0.7);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .nav-buttons button:hover {
+      background: rgba(155, 89, 182, 1);
+      transform: scale(1.1);
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Video -->
+  <video id="bg-video" autoplay loop muted>
+    <source src="bg-vd.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/icons/logo.jpg" alt="TEAM ACE CODERS Logo" class="logo-img" />
+        <span class="logo-text">TEAM ACE CODERS</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#trending"><i class="fas fa-fire"></i><span>Trending</span></a></li>
+        <li><a href="index.html#main-stories"><i class="fas fa-newspaper"></i><span>Main</span></a></li>
+        <li><a href="index.html#horror"><i class="fas fa-skull"></i><span>Horror</span></a></li>
+        <li><a href="index.html#thriller"><i class="fas fa-exclamation-triangle"></i><span>Thriller</span></a></li>
+        <li><a href="index.html#fantasy"><i class="fas fa-magic"></i><span>Fantasy</span></a></li>
+      </ul>
+      <div class="nav-search">
+        <input type="text" id="searchInput" placeholder="Search stories..." class="search-input" />
+        <button id="searchBtn" class="glossy-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slider with Story Chapters -->
+  <div class="slider-wrapper">
+    <div class="slider-container">
+      <!-- Chapter 1 -->
+      <div class="slide" id="chapter1">
+        <h1>Chapter 1: Midnight Arrival</h1>
+        <img src="images/story2/story2-1.jpg" alt="Dark eerie office with glowing code" />
+        <p>
+            The town of Ellsworth had always been quiet, almost too quiet. Tucked away in a valley surrounded by towering cliffs, it wasn’t the kind of place people passed through unless they had to. The train station, a relic of times long past, sat empty most days. The only time the platform came alive was at midnight, when the last train of the day arrived—always without warning, always on time.
+        </p>
+        <p>
+            For years, the townspeople had watched it arrive from their windows, its single light cutting through the darkness. They never saw passengers, never heard a sound from within the train. It would pull in, stop for exactly two minutes, then leave just as silently. No one questioned it. People had grown accustomed to the mystery, telling themselves it was just another oddity of Ellsworth.
+        </p>
+        <p>
+            But to Adam, the sight of the train stirred something more than curiosity. It was fascination, the feeling that the train wasn’t just part of the town—it was part of something bigger, something he didn’t understand.
+        </p>
+        <p>
+            One night, driven by an inexplicable urge, Adam decided he couldn’t just watch anymore. He had to know what was inside that train. Maybe it was his desire for adventure or a deep-seated restlessness. Whatever it was, it pushed him toward the station as the hour drew near.
+        </p>
+        <p>
+            When the clock struck twelve, he was already waiting on the platform. The cold air bit at his skin, but he barely noticed. The train came into view, its headlights dim but steady, illuminating the surrounding darkness like a distant star. As it slowed to a stop, Adam stepped forward, taking a deep breath. His heart raced as the train’s door creaked open.
+        </p>
+        <p>
+            "Just a quick look," he whispered to himself.
+        </p>
+        <p>
+            Before he could second-guess his decision, Adam stepped inside.
+        </p>
+      </div>
+      <!-- Chapter 2 -->
+      <div class="slide" id="chapter2">
+        <h1>Chapter 2: The Other World</h1>
+        <img src="images/story2/story2-2.jpg" alt="Glowing code on monitors" />
+        <p>
+            The door closed behind him with a soft thud, and the train began to move immediately, its wheels clicking rhythmically on the track. The interior was dimly lit, but not by any conventional lighting. There was an ethereal glow, like the light was coming from somewhere just out of sight.
+        </p>
+        <p>
+            Adam looked around, expecting to see the usual empty seats, the dust of years long past—but instead, the cabin was filled with passengers. They sat quietly in rows, not speaking, their faces shrouded in shadows. Some of them appeared older, others younger, all wearing clothing that seemed to belong to another era.
+        </p>
+        <p>
+            A strange sensation filled Adam as he walked down the aisle. It felt like stepping into a dream, like the boundaries between time and reality had blurred. He could feel something strange pulling at him, urging him to go further.
+        </p>
+        <p>
+            A voice interrupted his thoughts. “You shouldn’t be here.”
+        </p>
+        <p>
+            Adam spun around to see an elderly man, his face worn with age, but his eyes sharp and knowing. The man’s clothes were from a time long before Adam was born.
+            “I—uh—I didn’t mean to intrude,” Adam stammered. “I was just curious.”
+        </p>
+        <p>
+            The man studied him for a moment before nodding. “Curiosity is a dangerous thing on this train. You’re not meant to be here, but now that you are, you must understand something. This train isn’t just for travel. It’s a passage.”
+        </p>
+        <p>
+            “Passage to where?” Adam asked, his heart racing.
+        </p>
+        <p>
+            “To the places you forgot,” the man replied. “The ones you lost. This train carries the souls of those who didn’t get to say goodbye.”
+        </p>
+        <p>
+            The words hit Adam like a thunderclap. He felt a chill run down his spine as the reality of the situation sank in. The passengers weren’t ordinary travelers—they were people who had passed away, but something had kept them tethered to this place.
+            Before Adam could ask another question, the lights flickered, and the train rumbled as if passing through an invisible barrier. The scenery outside the windows changed. The familiar landscape of Ellsworth was gone, replaced by a desolate and endless stretch of fog.
+        </p>
+      </div>
+      <!-- Chapter 3 -->
+      <div class="slide" id="chapter3">
+        <h1>Chapter 3: The Choice</h1>
+        <img src="images/story2/story2-3.jpg" alt="Dark office with rewriting code" />
+        <p>
+            Adam turned back to the elderly man, his mind racing. “What do you mean, 'the places I forgot'? I don’t understand.”
+        </p>
+        <p>
+            The man’s expression softened. “Everyone aboard this train has unfinished business. But not everyone can leave. Some never realize what they missed in life until it’s too late.”
+        </p>
+        <p>
+            The train jolted again, and Adam stumbled, catching himself against the seat. The fog outside thickened, wrapping the train in an eerie, suffocating silence. For a moment, Adam was unsure whether he was still moving or had entered a world where time no longer existed.
+        </p>
+        <p>
+            “You need to get off the train before it’s too late,” the man urged, his voice more urgent now.
+
+            “Get off? But how?” Adam asked, panic rising in his chest.
+        </p>
+        <p>
+            The old man’s eyes locked onto his with a sorrowful expression. “This train will take you to a place where you can choose. A place where your forgotten past will be waiting for you. But it’s not always a blessing to see what you left behind. Some people step off this train and find they can't return. They get stuck in the memories they never let go of.”
+        </p>
+        <p>
+            Adam’s thoughts raced. He wasn’t ready to confront his past. He didn’t want to see the choices he had made, the mistakes, the things he wished he could undo. But the man’s words held a deeper truth: Sometimes, the past could hold more power over you than you realized.
+        </p>
+        <p>
+            The train began to slow, and through the thickening fog, a new landscape emerged—a familiar one. The door to the train slid open, revealing the world he had left behind.
+        </p>
+        <p>
+            "Now is the time, Adam," the old man said. "Make your choice."
+        </p>
+        <p>
+            Adam took a deep breath, stepping toward the door. He glanced back at the passengers—each one still waiting, frozen in their own regrets.
+
+            With one final glance, Adam stepped off the train, the doors shutting softly behind him. The fog parted as the train slowly began to fade into the distance. And in that moment, Adam realized that sometimes, the hardest journey is the one we make back to ourselves.
+        </p>
+      </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+      <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+      <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TEAM ACE CODERS. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const slider = document.querySelector('.slider-container');
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      }
+    });
+
+    slider.addEventListener('scroll', () => {
+      currentSlide = Math.round(slider.scrollLeft / slider.clientWidth);
+    });
+  </script>
+</body>
+</html>

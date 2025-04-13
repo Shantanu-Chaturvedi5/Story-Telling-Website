@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ghosts and Empties - Story</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Base Styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+      background-size: cover;
+      opacity: 0.5;
+    }
+    /* Navigation Bar (using your index.html theme) */
+    header {
+      background: rgba(17, 17, 17, 0.9);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 71, 145, 0.6);
+      box-shadow: 0 0 15px rgba(255, 71, 145, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .logo-img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 71, 145, 0.8);
+    }
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 71, 145, 0.8);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4081, #f50057);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+    .nav-search {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .search-input {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      width: 220px;
+      transition: all 0.3s;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .search-input:focus {
+      width: 240px;
+      outline: none;
+      border-color: rgba(255, 71, 145, 0.5);
+      box-shadow: 0 0 10px rgba(255, 71, 145, 0.3);
+    }
+    .glossy-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff4081, #f50057);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .glossy-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 71, 145, 0.5);
+    }
+    .glossy-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    /* Slider using CSS scroll-snap */
+    .slider-wrapper {
+      position: relative;
+      margin-top: 80px; /* space for header */
+    }
+    .slider-container {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+    .slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      padding: 2rem;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.5);
+      margin: 1rem;
+      border-radius: 10px;
+    }
+    .slide h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .slide img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    .slide p {
+      max-width: 700px;
+      margin: 1.5rem auto;
+      font-size: 1.2rem;
+      text-align: justify;
+      line-height: 1.6;
+    }
+    /* Navigation buttons for slider */
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .nav-buttons button {
+      pointer-events: all;
+      background: rgba(155, 89, 182, 0.7);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .nav-buttons button:hover {
+      background: rgba(155, 89, 182, 1);
+      transform: scale(1.1);
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Video -->
+  <video id="bg-video" autoplay loop muted>
+    <source src="bg-vd.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/icons/logo.jpg" alt="TEAM ACE CODERS Logo" class="logo-img" />
+        <span class="logo-text">TEAM ACE CODERS</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#trending"><i class="fas fa-fire"></i><span>Trending</span></a></li>
+        <li><a href="index.html#main-stories"><i class="fas fa-newspaper"></i><span>Main</span></a></li>
+        <li><a href="index.html#horror"><i class="fas fa-skull"></i><span>Horror</span></a></li>
+        <li><a href="index.html#thriller"><i class="fas fa-exclamation-triangle"></i><span>Thriller</span></a></li>
+        <li><a href="index.html#fantasy"><i class="fas fa-magic"></i><span>Fantasy</span></a></li>
+      </ul>
+      <div class="nav-search">
+        <input type="text" id="searchInput" placeholder="Search stories..." class="search-input" />
+        <button id="searchBtn" class="glossy-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slider with Story Chapters -->
+  <div class="slider-wrapper">
+    <div class="slider-container">
+      <!-- Chapter 1 -->
+      <div class="slide" id="chapter1">
+        <h1>Chapter 1: The Walk to Escape</h1>
+        <img src="images/story2/story2-6.jpg" alt="Dark eerie office with glowing code" />
+        <p>I have somehow become a woman who yells, and, because I do not want to be a woman who yells, whose little children walk around with frozen, watchful faces, I have taken to lacing on my running shoes after dinner and going out into the twilit streets for a walk, leaving the undressing and sluicing and reading and singing and tucking in of the boys to my husband, a man who does not yell.</p>
+        <p>The neighborhood goes dark as I walk, and a second neighborhood unrolls atop the daytime one. We have few street lights, and those I pass under make my shadow frolic; it lags behind me, gallops to my feet, gambols on ahead. The only other illumination is from the windows in the houses I pass and the moon that orders me to look up, look up! Feral cats dart underfoot, bird-of-paradise flowers poke out of the shadows, smells are exhaled into the air: oak dust, slime mold, camphor.</p>
+        <p>Northern Florida is cold in January and I walk fast for warmth but also because, although the neighborhood is antique—huge Victorian houses radiating outward into nineteen-twenties bungalows, then mid-century modern ranches at the edges—it’s imperfectly safe. There was a rape a month ago, a jogger in her fifties pulled into the azaleas; and, a week ago, a pack of loose pit bulls ran down a mother with a baby in her stroller and mauled both, though not to death. It’s not the dogs’ fault, it’s the owners’ fault! dog-lovers shouted on the neighborhood e-mail list, and it’s true, it was the owners’ fault, but also those dogs were sociopaths. When the suburbs were built, in the seventies, the historic houses in the center of the town were abandoned to graduate students who heated beans over Bunsen burners on the heart-pine floors and sliced apartments out of ballrooms. When neglect and humidity caused the houses to rot and droop and develop rusty scales, there was a second abandonment, to poor people, squatters. We moved here ten years ago because our house was cheap and had virgin-lumber bones, and because I decided that if I had to live in the South, with its boiled peanuts and its Spanish moss dangling like armpit hair, at least I wouldn’t barricade myself with my whiteness in a gated community. Isn’t it . . . dicey? people our parents’ age would say, grimacing, when we told them where we lived, and it took all my will power not to say, Do you mean black, or just poor? Because it was both. White middle-classness has since infected the neighborhood, though, and now everything is frenzied with renovation. In the past few years the black people have mostly withdrawn. The homeless stayed for a while, because our neighborhood abuts Bo Diddley Plaza, where, until recently, churches handed out food and God, and where Occupy rolled in like a tide and claimed the right to sleep there, then grew tired of being dirty and rolled out, leaving behind a human flotsam of homeless in sleeping bags. During our first months in the house, we hosted a homeless couple we only ever saw slinking off in the dawn: at dusk, they would silently lift off the latticework to the crawl space under our house and then sleep there, their roof our bedroom floor, and when we got up in the middle of the night we tried to walk softly because it felt rude to step inches above the face of a dreaming person.</p>
+        <p>On my nighttime walks the neighbors’ lives reveal themselves, the lit windows domestic aquariums. At times, I’m the silent witness to fights that look like slow-dancing without music. It is astonishing how people live, the messes they sustain, the delicious whiffs of cooking that carry to the street, the holiday decorations that slowly seep into daily décor. All January, I watched a Christmas bouquet of roses on one mantel diminish until the flowers were a blighted shrivel and the water green scum, a huge Santa on a stick still beaming merrily out of the ruins. Window after window nears, freezes with its blue fog of television light or its couple hunched over a supper of pizza, holds as I pass, then slides into the forgotten. I think of the way water gathers as it slips down an icicle’s length, pauses to build its glossy drop, becomes too fat to hang on, plummets down. There is one mostly windowless place in the neighborhood, a yellow brick monstrosity that I love nevertheless, because it houses nuns. There used to be six nuns there, but attrition happened, as it does with very old ladies, and now there are only three kindly sisters squeaking around that immense space in their sensible shoes. A Realtor friend told us that when it was built, in the nineteen-fifties, a bomb shelter was lowered into the porous limestone of the back yard, and during sleepless nights, when my body is in bed but my brain is still out walking in the dark, I like to imagine the nuns in full regalia in their shelter, singing hymns and spinning on a stationary bike to keep the light bulb sputtering on, while, aboveground, all has been blasted black and rusted hinges rasp the wind. Because the nights are so cold, I share the streets with few people. There’s a young couple who jog at a pace slightly slower than my fast walk. I follow them, listening to their patter of wedding plans and fights with friends. Once I forgot myself and laughed at something they said and their faces owled, unnerved, back at me, then they trotted faster and took the first turn they found and I let them disappear into the black.</p>
+      </div>
+      <!-- Chapter 2 -->
+      <div class="slide" id="chapter2">
+        <h1>Chapter 2: The Witness in the Dark</h1>
+        <img src="images/story2/story2-7.jpg" alt="Glowing code on monitors" />
+       <p>There’s an elegant, tall woman who walks a Great Dane the color of dryer lint; I am afraid that the woman is unwell because she walks rigidly, her face pulsing as if intermittently electrified by pain. I sometimes imagine how, should I barrel around a corner to find her slumped on the ground, I would drape her over her dog, smack his withers, and watch as he, with his great dignity, carried her home.</p>
+       <p>There is a boy of fifteen or so, tremendously fat, whose shirt is always off and who is always on the treadmill on his glassed-in porch. No matter how many times I find myself sailing past his window, there he is, his footsteps pounding so hard I can hear them from two blocks away. Because all the lights are on, to him there is nothing beyond the black in the window, and I wonder if he watches his reflection the way I watch him, if he sees how with each step his stomach ripples as if it were a pond into which someone had tossed a fist-size stone.</p>
+       <p>There’s the shy muttering homeless lady, a collector of cans, who hoists her clanging bags on the back of her bicycle and uses the old carriage blocks in front of the grander houses to mount her ride; the waft of her makes me think of the wealthy Southern dames in dark silk who once used those blocks to climb into their carriages, emitting a similarly intimate feminine smell. There’s the man who hisses nasties as he stands under the light outside a bodega with bars over its windows. I put on my don’t-fuck-with-me face, and he has yet to do more than hiss, but there is a part of me that is more than ready, that wants to use what’s building up. Sometimes I think I see the stealthy couple who lived under our house, the particular angle of his solicitousness, his hand on her back, but when I come closer it is only a papaya tree bent over a rain barrel or two boys smoking in the bushes, who turn wary as I pass.</p>
+       <p>And then there’s the therapist who every night sits at his desk in the study of his Victorian, which looks like a rotting galleon. He was caught in bed with the wife of one of his patients; the patient had a loaded shotgun out in the car. The wife died in coitus and the therapist survived with a bullet still in his hip, which makes him lurch when he gets up to pour himself more Scotch. There are rumors that he visits the cuckolded murderer in prison every week, though whether his motive is kindness or crowing remains in the shadows, as if motives could ever be pure. My husband and I had just moved in when the murder occurred; we were scraping rotting paint off the oak moldings in our dining room when the gunshots splattered the air, but of course we believed they were fireworks lit by the kids who lived a few houses down.</p>
+       <p>As I walk, I see strangers but also people I know. I look up in the beginning of February to see a close friend in a pink leotard in her window, stretching, but then, with a zip of understanding, I realize that she isn’t stretching, she is drying her legs, and the leotard is in fact her body, pinked from the hot shower. Even though I visited her in the hospital when both of her boys were born, held the newborns in my arms when they still smelled of her, saw the raw Cesarean split, it isn’t until I watch her drying herself that I understand that she is a sexual being, and then the next time we speak I can’t help but blush and endure images of her in extreme sexual positions. Mostly, however, I see the mothers I know in glimpses, bent like shepherdess crooks, scanning the floor for tiny Legos or half-chewed grapes or the people they once were slumped in the corners.</p>
+      </div>
+      <!-- Chapter 3 -->
+      <div class="slide" id="chapter3">
+        <h1>Chapter 3: The Edge of Loss</h1>
+        <img src="images/story2/story2-8.jpg" alt="Dark office with rewriting code" />
+        <p>It’s too much, it’s too much, I shout at my husband some nights when I come home, and he looks at me, afraid, this giant gentle man, and sits up in bed over his computer and says, softly, I don’t think you’ve walked it off yet, sweets, you may want to take one more loop. I go out again, furious, because the streets become more dangerous this late at night, and how dare he suggest risk like this to me, when I have proved myself vulnerable; but, then again, perhaps my warm house has become more dangerous as well. During the day, while my sons are in school, I can’t stop reading about the disaster of the world, the glaciers dying like living creatures, the great Pacific trash gyre, the hundreds of unrecorded deaths of species, millennia snuffed out as if they were not precious. I read and savagely mourn, as if reading could somehow sate this hunger for grief, instead of what it does, which is fuel it.</p>
+        <p>I have mostly stopped caring where I walk, but I try to be at the Duck Pond every night when the Christmas lights, forgotten for weeks now, click off and the pond erupts, the frogs launching into their syncopated song like a nursery school let loose in a room of untuned lutes. Our pair of black swans would shout at the frogs with their brass voices as if to shut them up, but, outnumbered, they couldn’t. The light’s sudden fall makes me tremble.</p>
+        <p>One night in late January, as I round the block just before the moon goes pale in the east, I spot a woman standing at the foot of a tree in her white dress, watching a bird that has perched on a high limb. She is alone and still, and when I pass by, I don’t look back. It’s not my business.</p>
+        <p>In the morning, I will wake to see the sun lifting the drape over the curtain rod and glinting through the slats of the Venetian blind, but I won’t forget that I passed her then. It’s been on my mind all night, the quiet of her, the way she seemed anchored by something invisible, something more than sorrow.</p>
+      </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+      <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+      <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TEAM ACE CODERS. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const slider = document.querySelector('.slider-container');
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      }
+    });
+
+    slider.addEventListener('scroll', () => {
+      currentSlide = Math.round(slider.scrollLeft / slider.clientWidth);
+    });
+  </script>
+</body>
+</html>

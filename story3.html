@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Forgotten Portal - Story</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Base Styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -2;
+      transform: translate(-50%, -50%);
+      background-size: cover;
+      opacity: 0.5;
+    }
+    /* Navigation Bar (using your index.html theme) */
+    header {
+      background: rgba(17, 17, 17, 0.9);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 71, 145, 0.6);
+      box-shadow: 0 0 15px rgba(255, 71, 145, 0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .logo-img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 71, 145, 0.8);
+    }
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 71, 145, 0.8);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4081, #f50057);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+    .nav-search {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .search-input {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      width: 220px;
+      transition: all 0.3s;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .search-input:focus {
+      width: 240px;
+      outline: none;
+      border-color: rgba(255, 71, 145, 0.5);
+      box-shadow: 0 0 10px rgba(255, 71, 145, 0.3);
+    }
+    .glossy-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff4081, #f50057);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .glossy-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 71, 145, 0.5);
+    }
+    .glossy-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    /* Slider using CSS scroll-snap */
+    .slider-wrapper {
+      position: relative;
+      margin-top: 80px; /* space for header */
+    }
+    .slider-container {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+    .slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      padding: 2rem;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.5);
+      margin: 1rem;
+      border-radius: 10px;
+    }
+    .slide h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .slide img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    .slide p {
+      max-width: 700px;
+      margin: 1.5rem auto;
+      font-size: 1.2rem;
+      text-align: justify;
+      line-height: 1.6;
+    }
+    /* Navigation buttons for slider */
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .nav-buttons button {
+      pointer-events: all;
+      background: rgba(155, 89, 182, 0.7);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .nav-buttons button:hover {
+      background: rgba(155, 89, 182, 1);
+      transform: scale(1.1);
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Video -->
+  <video id="bg-video" autoplay loop muted>
+    <source src="bg-vd.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="images/icons/logo.jpg" alt="TEAM ACE CODERS Logo" class="logo-img" />
+        <span class="logo-text">TEAM ACE CODERS</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#trending"><i class="fas fa-fire"></i><span>Trending</span></a></li>
+        <li><a href="index.html#main-stories"><i class="fas fa-newspaper"></i><span>Main</span></a></li>
+        <li><a href="index.html#horror"><i class="fas fa-skull"></i><span>Horror</span></a></li>
+        <li><a href="index.html#thriller"><i class="fas fa-exclamation-triangle"></i><span>Thriller</span></a></li>
+        <li><a href="index.html#fantasy"><i class="fas fa-magic"></i><span>Fantasy</span></a></li>
+      </ul>
+      <div class="nav-search">
+        <input type="text" id="searchInput" placeholder="Search stories..." class="search-input" />
+        <button id="searchBtn" class="glossy-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slider with Story Chapters -->
+  <div class="slider-wrapper">
+    <div class="slider-container">
+      <!-- Chapter 1 -->
+      <div class="slide" id="chapter1">
+        <h1>Chapter 1: The Hidden Door</h1>
+        <img src="images/story2/story2-9.jpg" alt="Dark eerie office with glowing code" />
+       <p>Lena always loved exploring the old library in her grandfather’s mansion. One evening, while tracing her fingers along the dusty bookshelves, she felt a strange breeze brush against her cheek. Following the sensation, Lena pushed against a wooden panel where the air seemed to be coming from. To her amazement, the shelf swung open, revealing a hidden door. Her heart raced as she stepped inside, unaware that this discovery would change her life forever.</p>
+       <p>Beyond the door lay a shimmering blue portal. Lena hesitated for a moment but, driven by curiosity, she reached out and touched it. Before she could process what was happening, she was pulled into another world—a vast, breathtaking land where floating islands hovered in the sky, and rivers glowed with golden light. In this strange world, she met Kael, a boy who claimed to be from the same place as her, but trapped here for years. He warned her of the wonders, but also the dangers, that lurked in this realm.</p>
+      </div>
+      <!-- Chapter 2 -->
+      <div class="slide" id="chapter2">
+        <h1>Chapter 2: The Guardian's Warning</h1>
+        <img src="images/story2/story2-10.jpg" alt="Glowing code on monitors" />
+        <p>As Lena and Kael traveled deeper into the world, they encountered an imposing figure—The Guardian of the Portal. Dressed in silver robes, the Guardian revealed startling truths about the portal: it was never meant to be opened, and Lena had only a limited time before it sealed forever. But there was more. A dark force had been awakened by the portal’s power, and if it reached the gateway before Lena, it would bring destruction to her world.</p>
+        <p>With no time to waste, Lena and Kael embarked on a quest to find the Key of Echoes, a legendary artifact that could control the portal’s power and protect both worlds. The journey was fraught with danger. They faced shadowy creatures that whispered their deepest fears, navigated an enchanted maze that shifted endlessly, and crossed a lake where time itself seemed to freeze. All the while, the dark force grew closer, its presence warping the very air around them. As they neared their goal, Lena and Kael knew they had little time before the dark force would overpower them.</p>
+      </div>
+      <!-- Chapter 3 -->
+      <div class="slide" id="chapter3">
+        <h1>Chapter 3: The Final Choice</h1>
+        <img src="images/story2/story2-11.jpg" alt="Dark office with rewriting code" />
+       <p>After overcoming numerous trials, Lena and Kael finally obtained the Key of Echoes. But with the portal sealing, Lena faced a devastating decision—only one of them could return home. Kael, who had been trapped in the strange world for years, urged her to go, but Lena refused to leave him behind. In a desperate act, she split the key in two, opening a new path for Kael, while risking her own future.</p>
+       <p>Just as the dark force closed in on them, Lena took one final step through the portal. The world behind her collapsed into darkness. When she awoke, she was back in her grandfather’s library, and the hidden door had vanished, replaced by a wall of stone. Had it all been real? As she touched her pocket, she discovered that half of the Key of Echoes was still warm in her hand.</p>
+       <p>Some doors, Lena realized, are never truly closed.</p>
+      </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+      <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+      <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TEAM ACE CODERS. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const slider = document.querySelector('.slider-container');
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({
+          left: currentSlide * slider.clientWidth,
+          behavior: 'smooth'
+        });
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+        currentSlide++;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+        currentSlide--;
+        slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
+      }
+    });
+
+    slider.addEventListener('scroll', () => {
+      currentSlide = Math.round(slider.scrollLeft / slider.clientWidth);
+    });
+  </script>
+</body>
+</html>
